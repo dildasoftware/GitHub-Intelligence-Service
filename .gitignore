@@ -1,0 +1,32 @@
+# .NET Core
+bin/
+obj/
+*.user
+*.suo
+.vs/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# NodeJS / React
+node_modules/
+dist/
+build/
+client/node_modules/
+client/dist/
+
+# Logs
+*.log
+
+# Sensitive Files
+appsettings.Development.json
+*.env
+.env

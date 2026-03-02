@@ -1,0 +1,41 @@
+version: '3.4'
+
+services:
+  api:
+    image: ${DOCKER_REGISTRY-}githubintelligenceservice-api
+    build:
+      context: .
+      dockerfile: src/GitHubIntelligenceService.Api/Dockerfile
+    ports:
+      - "5000:8080" # Kestrel, varsayılan 8080'de dinliyor olabilir (Container), dışarıya 5000 verelim.
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Database=GitHubIntelligenceDb;User=sa;Password=StrongPassword123!;TrustServerCertificate=True;
+    depends_on:
+      - db
+    networks:
+      - backend-network
+
+  client:
+    image: ${DOCKER_REGISTRY-}githubintelligenceservice-client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80" # Nginx (80) -> Host (3000)
+    networks:
+      - backend-network
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=StrongPassword123!
+    ports:
+      - "1433:1433"
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    driver: bridge
